@@ -14,7 +14,7 @@ elseif input==2 % Play recording
     
     % Get filename and load recording
     if exist('list')==1
-        [filename, fileendtime]=getfile(file_time, list, recording_format, 'time',init);
+        [filename, fileendtime]=getfile(file_time, list, recording_format, 'filename',init);
         if isempty(filename)==1
             matrix_duration=[];
         else
