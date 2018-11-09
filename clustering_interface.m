@@ -17,14 +17,13 @@ else
 end
     
 % Preparing axis for visualization
-LTSA_resolution=round((time_vec(2)-time_vec(1))*24*60)/24/60;
+LTSA_resolution=round((time_vec(2)-time_vec(1))*24*60*60)/24/60/60;
 y_axis=unique(round((save_result(:,1)-floor(save_result(:,1)))*24*60*60)/3600); y_axis(y_axis>=24)=[]; 
-x_axis=unique(floor(save_result(:,1)));
-
-% plot the soundscape scene and event
 N_rem=rem(size(save_result,1),length(y_axis));
+x_axis=unique(floor(save_result(1:end-N_rem,1)));
 soundscape_context=reshape(save_result(1:end-N_rem,2),length(y_axis),[]);
 
+% plot the soundscape scene and event
 c_axe1=axes('position',[.15  .5  .5  .45]);
 imagesc(x_axis+0.5, y_axis,soundscape_context(:,:,1)); ylim([0 24]);
 xlabel('Date'); ylabel('Hour'); datetick('x','keepticks','keeplimits'); colormap(visualization_map);

@@ -1,7 +1,7 @@
 if menu_style==3
     h20=figure('Position',[50 200 350 150],'Menubar','none');
     hlabel2=uicontrol('Style','text','String','Enter the feature threshold','FontSize',10,'Position',[20 100 200 20]);
-    h20_th=uicontrol('Style','edit','String',[],'FontSize',10,'Position',[230 100 60 30]);
+    h20_th=uicontrol('Style','edit','String',min(data(:)),'FontSize',10,'Position',[230 100 60 30]);
     hlabel3=uicontrol('Style','text','String','Variation of clustering (%)','FontSize',10,'Position',[20 60 200 20]);
     h20_var=uicontrol('Style','edit','String',95,'FontSize',10,'Position',[230 60 60 30]);
     h20_enter=uicontrol('Style','pushbutton', 'String', 'Enter','Position',[230 20 60 30],'FontSize',10,'BackgroundColor',[.8 .8 .8],'Callback','button_action;');

@@ -43,8 +43,8 @@ if variable_flag==0
     end
         
     % organize the data by timestamp
-    LTSA_resolution=time_stamp(2)-time_stamp(1);
-    time_vec=floor(min(time_stamp)):LTSA_resolution:ceil(max(time_stamp));
+    LTSA_resolution=round((time_stamp(2)-time_stamp(1))*24*3600);
+    time_vec=floor((floor(min(time_stamp))*24*3600:LTSA_resolution:ceil(max(time_stamp))*24*3600))/24/3600;
     output=nan(length(f),length(time_vec),2);
 
     for n=1:size(data_median,1)
@@ -62,8 +62,8 @@ elseif variable_flag==1
     f=[];
     
     % organize the data by timestamp
-    LTSA_resolution=time_stamp(2)-time_stamp(1);
-    time_vec=floor(min(time_stamp)):LTSA_resolution:ceil(max(time_stamp));
+    LTSA_resolution=round((time_stamp(2)-time_stamp(1))*24*3600);
+    time_vec=floor((floor(min(time_stamp))*24*3600:LTSA_resolution:ceil(max(time_stamp))*24*3600))/24/3600;
     output=nan(size(data_median,2)-1,length(time_vec));
 
     for n=1:size(data_median,1)

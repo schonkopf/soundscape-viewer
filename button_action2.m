@@ -14,15 +14,15 @@ elseif input==2 % Play recording
     
     % Get filename and load recording
     if exist('list')==1
-        [filename, fileendtime]=getfile(file_time, list, recording_format, 'filename',init);
+        [filename, fileendtime]=getfile(file_time, list, recording_format, 'time',init);
         if isempty(filename)==1
             matrix_duration=[];
         else
             cd(PATH)
             info = audioinfo(filename);
-            if ceil(info.Duration/60)>LTSA_resolution*24*60
+            if ceil(info.Duration)>LTSA_resolution*24*60*60
                 begin_time=fileendtime-info.Duration/3600/24;
-                matrix_duration=floor([(datenum(file_time)-begin_time)*24*60 (datenum(file_time)-begin_time+LTSA_resolution)*24*60].*60*info.SampleRate);
+                matrix_duration=floor([(datenum(file_time)-begin_time)*24*60*60 (datenum(file_time)-begin_time+LTSA_resolution)*24*60*60].*info.SampleRate);
                 if matrix_duration(end)>info.TotalSamples
                     matrix_duration(end)=info.TotalSamples;
                 end
@@ -68,7 +68,8 @@ elseif input==2 % Play recording
     if spec_disp==1
        [S,F,T,P]=spectrogram(sound_data(:,1),1024,256,1024,fs);
        axes(c_axe4); cla(c_axe4,'reset');
-       imagesc(T/60,F/1000,10*log10(P)); axis xy; 
+       P=10*log10(P);
+       imagesc(T/60,F/1000,P); axis xy; caxis([prctile(P(:),1)-10 max(P(:))+5]);
        file_time(2:end)=100+file_time(2:end);
        YY=num2str(file_time(1)); MM=num2str(file_time(2)); DD=num2str(file_time(3)); hh=num2str(file_time(4)); mm=num2str(file_time(5)); ss=num2str(file_time(6));
        title([YY MM(2:3) DD(2:3) ' ' hh(2:3) mm(2:3) ss(2:3)]) ;xlabel('Time (min)'); ylabel('Frequency (kHz)');
