@@ -1,26 +1,16 @@
-% Parameters
-view=1; 
 
-clear scene_feature;
-if isempty(save_result)==1
-    time_vec=round(time_vec*24*60*60)/24/60/60;
-    [save_result, soundscape_scene]=LTSA_context_analysis(analysis_data, time_vec, f, var_th);
-    % Scene and event spectral features
-    for n=1:max(save_result(:,2))
-        scene_feature(:,n)=soundscape_scene{n}(:,3);
-    end
-else
-    % PSD feature extraction of each soundscape scene
-    for n=1:max(save_result(:,2))
-        scene_feature(:,n)=soundscape_scene{n}(:,3);
-    end
+
+% Scene and event spectral features
+for n=1:max(save_result(:,2))
+    scene_feature(:,n)=soundscape_scene{n}(:,3);
 end
     
 % Preparing axis for visualization
+time_vec=round(time_vec*24*60*6)/24/60/6;
 LTSA_resolution=round((time_vec(2)-time_vec(1))*24*60*60)/24/60/60;
-y_axis=unique(round((save_result(:,1)-floor(save_result(:,1)))*24*60*60)/3600); y_axis(y_axis>=24)=[]; 
+y_axis=unique(round((time_vec-floor(time_vec))*24*60*60)/3600); y_axis(y_axis>=24)=[]; 
 N_rem=rem(size(save_result,1),length(y_axis));
-x_axis=unique(floor(save_result(1:end-N_rem,1)));
+x_axis=unique(floor(time_vec(1:end-N_rem)));
 soundscape_context=reshape(save_result(1:end-N_rem,2),length(y_axis),[]);
 
 % plot the soundscape scene and event

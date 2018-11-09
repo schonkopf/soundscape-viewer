@@ -1,4 +1,4 @@
-if menu_style==3
+if floor(menu_style)==3
     h20=figure('Position',[50 200 350 150],'Menubar','none');
     hlabel2=uicontrol('Style','text','String','Enter the feature threshold','FontSize',10,'Position',[20 100 200 20]);
     h20_th=uicontrol('Style','edit','String',min(data(:)),'FontSize',10,'Position',[230 100 60 30]);

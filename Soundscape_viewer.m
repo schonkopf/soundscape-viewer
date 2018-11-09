@@ -13,7 +13,7 @@ m_load_file = uimenu(m_load,'Label','File', 'Callback','menu_style=1.1; button_a
 m_load_folder = uimenu(m_load,'Label','Folder', 'Callback','menu_style=1.2; button_action;');
 m_analysis_separation = uimenu(m_analysis,'Label', 'Unsupervised separation', 'Callback','menu_style=2.2; source_number;');     
 m_analysis_supervised_SS = uimenu(m_analysis,'Label', 'Supervised separation', 'Callback','menu_style=2.3; button_action;');   
-m_analysis_classification = uimenu(m_analysis,'Label', 'Clustering', 'Callback','menu_style=3; source_number;');
+m_analysis_classification = uimenu(m_analysis,'Label', 'Clustering', 'Callback','menu_style=3.2; source_number;');
 % Sub-Menubar for save
 m_save_lts = uimenu(m_save,'Label', 'Save LTS', 'Callback','menu_style=4.1; button_action;');
 m_save_model = uimenu(m_save,'Label', 'Save model', 'Callback','menu_style=4.2; button_action;');

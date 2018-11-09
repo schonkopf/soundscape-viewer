@@ -1,5 +1,6 @@
 visualization_map=colormap(jet(512));
 visualization_map(1,:)=1;
+PATH_o=cd;
 
 if menu_style==0
     axes(axe1);
@@ -7,7 +8,6 @@ if menu_style==0
     caxis([floor(min(data(:)))-ceil(max(data(:)))/20 ceil(max(data(:)))]); colormap(visualization_map); colorbar;
 elseif floor(menu_style)==1
     % Load data
-    PATH_o=cd;
     if menu_style==1.1
         [File,LTSA_folder] = uigetfile('*.mat');
         [output.LTS, f, time_vec]=LTSA_combine(LTSA_folder, 0, 1, File);
@@ -24,15 +24,6 @@ elseif floor(menu_style)==1
         data=output.LTS(:,:,1);
         axes(axe1); cla(axe1,'reset');
         LTS_disp=3;
-    elseif menu_style==1.3
-        [Cluster_file,clustering_folder] = uigetfile('*.mat');
-        cd(clustering_folder); temp=load(Cluster_file); cd(PATH_o);
-        save_result=save_clustering.save_result;
-        time_vec=save_clustering.time_vec;
-        soundscape_scene=save_clustering.soundscape_scene;
-        classification_th=save_clustering.classification_th;
-        axes(c_axe4); cla(c_axe4,'reset');
-        clustering_interface;
     end
     
     
@@ -135,10 +126,29 @@ elseif floor(menu_style)==2
     caxis([floor(min(data(:)))-ceil(max(data(:)))/20 ceil(max(data(:)))]); colormap(visualization_map); colorbar;
 
 elseif floor(menu_style)==3
-    if exist('data')==0
-        msgbox('Please load long-term spectrogram at first.')
-    else
-        Unsupervised_classify;
+    if menu_style==3.1
+        [Cluster_file,clustering_folder] = uigetfile('*.mat');
+        cd(clustering_folder); load(Cluster_file); cd(PATH_o);
+        save_result=save_clustering.save_result;
+        time_vec=save_clustering.time_vec;
+        soundscape_scene=save_clustering.soundscape_scene;
+        f=save_clustering.f;
+        clustering_interface;
+    elseif menu_style==3.2
+        if exist('data')==0
+            msgbox('Please load long-term spectrogram at first.')
+        else
+            % Filtering input data
+            classification_th=str2num(get(h20_th, 'String'));
+            var_th=1-str2num(get(h20_var, 'String'))/100;
+            close(h20);
+
+            analysis_data=data;
+            analysis_data(analysis_data<classification_th)=classification_th; analysis_data=analysis_data-classification_th;
+
+            Unsupervised_classify;
+            clustering_interface;
+        end
     end
     
 elseif floor(menu_style)==4
@@ -162,6 +172,7 @@ elseif floor(menu_style)==4
         save_clustering.time_vec=time_vec;
         save_clustering.soundscape_scene=soundscape_scene;
         save_clustering.classification_th=classification_th;
+        save_clustering.f=f;
         uisave('save_clustering');
         
         Recording_time=save_result(:,1)-693960;

@@ -1,15 +1,8 @@
-% Filtering input data
-classification_th=str2num(get(h20_th, 'String'));
-var_th=1-str2num(get(h20_var, 'String'))/100;
-close(h20);
-
-analysis_data=data;
-analysis_data(analysis_data<classification_th)=classification_th; analysis_data=analysis_data-classification_th;
 
 % Panels
 h2=figure('Position',[50 50 1200 600],'Menubar','none','Toolbar','figure');
 % Menubar
-m_load = uimenu(h2,'Label','Load', 'Callback','menu_style=1.3; button_action;');
+m_load = uimenu(h2,'Label','Load', 'Callback','menu_style=3.1; button_action;');
 m_save = uimenu(h2,'Label','Save', 'Callback','menu_style=4.3; button_action;');
 
 % Buttons
@@ -19,5 +12,15 @@ c_button2=uicontrol('Style','pushbutton','String','Pause','FontSize',8,'Position
 c_button3=uicontrol('Style','pushbutton','String','Resume','FontSize',8,'Position',[20 100 100 50],'BackgroundColor',[.8 .8 .8],'Callback','input=4; button_action2;');
 
 save_result=[];
-clustering_interface;
+
+% Parameters
+view=1; 
+
+clear scene_feature;
+if exist('analysis_data')==1
+   time_vec=round(time_vec*24*60*60)/24/60/60;
+   [save_result, soundscape_scene]=LTSA_context_analysis(analysis_data, time_vec, f, var_th);
+else
+   menu_style=3.1; button_action;
+end
 
